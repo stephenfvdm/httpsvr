@@ -8,16 +8,18 @@ CFLAGS  = -Wall -I$(INC_DIR)
 CC      = gcc
 
 _OBJECT = $(patsubst %,$(OBJ_DIR)/%,$(SOURCES:.c=.o))
-_DEPEND = $(patsubst %,$(INC_DIR)/%,$(DEPENDS))
 _OUTPUT = $(PRJ_DIR)/$(PROJECT)
+vpath %.h $(INC_DIR)
 
+.PHONY: all
 all: $(_OUTPUT)
 
-$(OBJ_DIR)/%.o: %.c $(_DEPEND)
+$(OBJ_DIR)/%.o: %.c $(DEPENDS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(_OUTPUT): $(_OBJECT)
 	libtool -o $(_OUTPUT) -static $(_OBJECT)
 
+.PHONY: clean
 clean:
 	-rm -f $(_OUTPUT) $(_OBJECT)
