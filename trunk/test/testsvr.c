@@ -56,6 +56,9 @@ int main (int argc, const char * argv[]) {
 
         httpsvr_add_page_handler(handle, "/",    httpsvr_redirect_to_index_html);
         httpsvr_add_page_handler(handle, "*",    httpsvr_wildcard_page);
+
+        printf("%s\n", HTTPSVR_USER_AGENT);
+        printf("Listening on port %hu\n", port);
         while (1) {
             httpsvr_receive(handle);
         }
